@@ -1,0 +1,5 @@
+# Treat encrypted secrets as binary - no diffs
+*.enc.yaml diff=none
+
+# Ensure consistent line endings (safety across platforms)
+* text=auto
