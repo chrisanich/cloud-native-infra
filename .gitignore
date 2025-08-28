@@ -1,3 +1,31 @@
-# Never commit plaintext secrets
-*.yaml
-!*.enc.yaml
+# === Terraform / OpenTofu artefacts ===
+**/.terraform/
+## Kept to make it reproducible builds among machines: **/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+
+# === Local override files ===
+*.tfvars
+*.tfvars.json
+
+# === Secrets ===
+# Never commit decrypted secrets
+**/hetzner.yaml
+**/*.dec.yaml
+**/secrets.yaml
+**/secrets.json
+**/*.key
+**/*.pem
+
+# Allow only encrypted secrets (safe to commit)
+!**/*.enc.yaml
+
+# === Script artefacts ===
+scripts/load-secrets.sh.save
+*.swp
+*.swo
+
+# === OS cruft ===
+.DS_Store
+Thumbs.db
