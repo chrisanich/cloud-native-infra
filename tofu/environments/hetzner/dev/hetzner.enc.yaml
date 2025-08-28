@@ -1,0 +1,16 @@
+hcloud_token: ENC[AES256_GCM,data:nO7flPVYNepMLGa+wfTQaulxPc9uNIn5Ia7PIbyLJwmIM1fsFgLynDHBGeru8JQgA+PucZDuW+wgweWYOooeUg==,iv:MZpNd+XDzHOWapQRbBumgHt1Hdu2mSfvvysMTelCcrY=,tag:ZJfscgqaLgjNzoCoZtLoaQ==,type:str]
+sops:
+    age:
+        - recipient: age1gz00ekzmkx359pkem3y2cqq7rhzn9gzqcavthq30jlrc6l6e6glq7xrzv2
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBsR3BjT0FLbFNuaGxnTzI4
+            b0tQZVdtZzZaK1l0RDhYazR1NGtKNS9DdmlVCmZYcDlzL1JzVnRpL283ZkM3cFJ5
+            R0J6NStwY09SSnFTWFd3dFJTL0JVVG8KLS0tIG10WHI0QkZZQkhBbTM1VUVhK3ZP
+            Q1JzL3o4MDlleDdsb094NURiY3oyeXcKkEwzYHNxsC7RkrWh5C4nLKSnR3IADsOE
+            uPp2VY9MS7y4FefRfvYS2Ff5WWoqh4BtxAy8PfDTVp8656XPP0ukKw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-08-28T13:48:22Z"
+    mac: ENC[AES256_GCM,data:FiWi5A/9rzw+VOiUT127Co4jWnALADmlJUoWYXsdnkcfP3vXdOHLgcjLg9OmvDXUg6wXjy8qcTJyvtRZh1GGhCt2+XbH5rQeC2uUq9g0bfHzez/v+a2ClnV57D22pQd6QHZiRsGfU0vFhH8kpaR0s0ti1JllgTmUBZVbAVDgMg0=,iv:aIl1ZsrzMnOCMVf2dKCLjLvtSB+SMn+REYcecc7fHM8=,tag:Sn5KcBvfkmIpC0ePMi2F+Q==,type:str]
+    unencrypted_suffix: _unencrypted
+    version: 3.10.2

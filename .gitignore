@@ -1,0 +1,3 @@
+# Never commit plaintext secrets
+*.yaml
+!*.enc.yaml

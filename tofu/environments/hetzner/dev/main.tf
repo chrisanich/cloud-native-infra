@@ -1,17 +1,7 @@
-terraform {
-  required_providers {
-    hcloud = {
-      source  = "hetznercloud/hcloud"
-      version = "~> 1.45"
-    }
-  }
-}
+module "core_network" {
+  source       = "../../../modules/core-network"
+  hcloud_token = var.hcloud_token
 
-provider "hcloud" {
-  token = var.hcloud_token
-}
-
-resource "hcloud_network" "main" {
-  name     = var.network_name
-  ip_range = var.network_cidr
+  network_name = "cloud-native-network"
+  network_cidr = "10.0.0.0/16"
 }
