@@ -6,11 +6,13 @@
 crash.log
 
 # Keep lockfile for reproducibility
-# (do NOT ignore .terraform.lock.hcl)
+!.terraform.lock.hcl
 
 # === Local override files ===
 *.tfvars
 *.tfvars.json
+override.tf
+override.tf.json
 
 # === Secrets ===
 # Never commit decrypted secrets
@@ -28,6 +30,7 @@ crash.log
 *.swp
 *.swo
 *.save
+*.bak
 
 # === OS cruft ===
 .DS_Store
@@ -35,3 +38,4 @@ Thumbs.db
 
 # === Images/screenshots ===
 pictures/*.png
+screenshots/

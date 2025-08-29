@@ -11,7 +11,7 @@ HETZNER_TOKEN="$(SOPS_AGE_KEY_FILE="$HOME/.secrets/age.key" \
   sops --decrypt --extract '["hcloud_token"]' hetzner.enc.yaml)"
 export HCLOUD_TOKEN="$HETZNER_TOKEN"
 
-echo "HCLOUD_TOKEN is set: ${HCLOUD_TOKEN:0:4}…"
+echo "HCLOUD_TOKEN is set: ****…"
 
 echo "→ Initializing OpenTofu..."
 tofu init -input=false
@@ -22,6 +22,8 @@ tofu plan -out=tfplan
 if [[ "${APPLY:-false}" == "true" ]]; then
   echo "→ Applying..."
   tofu apply -auto-approve tfplan
+  rm -f tfplan
+  echo "✅ Apply complete! (tfplan removed)"
 else
   echo "→ Plan created: tfplan. Use APPLY=true to apply."
 fi
