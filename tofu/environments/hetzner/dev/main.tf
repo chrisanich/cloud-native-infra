@@ -18,19 +18,23 @@ module "core_network" {
 }
 
 module "k8s_control_plane" {
-  source      = "../../modules/k8s-control-plane"
+  source      = "../../../modules/k8s-control-plane"
   region      = "fsn1"
   server_type = "cpx21"
   ssh_key_name = "tuxedo-ed25519"
+  network_id   = module.core_network.network_id
+  private_ip   = "10.0.0.10"
 }
 
 module "k8s_nodes" {
-  source      = "../../modules/k8s-node"
-  region      = "fsn1"
-  server_type = "cpx21"
-  ssh_key_name = "tuxedo-ed25519"
-  count       = 2
+  source        = "../../../modules/k8s-node"
+  region        = "fsn1"
+  server_type   = "cpx21"
+  ssh_key_name  = "tuxedo-ed25519"
+  network_id    = module.core_network.network_id
+  worker_count  = 2
 }
+
 
 output "control_plane_ip" {
   value = module.k8s_control_plane.ip
