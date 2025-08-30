@@ -75,7 +75,6 @@ resource "hcloud_firewall" "headscale_fw" {
   rule {
     direction       = "out"
     protocol        = "icmp"
-    port            = "any"
     destination_ips = ["0.0.0.0/0", "::/0"]
   }
 }

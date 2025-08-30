@@ -2,7 +2,10 @@
 set -euo pipefail
 trap 'echo "Error on line $LINENO"; exit 1' ERR
 
+# First arg = environment name (default: dev)
 ENV="${1:-dev}"
+shift || true   # shift away the ENV arg, so $@ = extra args (like -target=...)
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../tofu/environments/hetzner/${ENV}" && pwd)"
 cd "$ROOT"
 
@@ -17,11 +20,11 @@ echo "→ Initializing OpenTofu..."
 tofu init -input=false
 
 echo "→ Running plan..."
-tofu plan -out=tfplan
+tofu plan -out=tfplan "$@"
 
 if [[ "${APPLY:-false}" == "true" ]]; then
   echo "→ Applying..."
-  tofu apply -auto-approve tfplan
+  tofu apply -auto-approve "$@" tfplan
   rm -f tfplan
   echo "✅ Apply complete! (tfplan removed)"
 else
