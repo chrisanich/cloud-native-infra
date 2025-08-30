@@ -40,3 +40,4 @@ Thumbs.db
 pictures/*.png
 screenshots/
 typescript
+tofu/environments/**/tfplan
