@@ -21,6 +21,11 @@ variable "network_id" {
   description = "Hetzner network ID (from core-network module)"
 }
 
+variable "firewall_id" {
+  type        = string
+  description  = "Hetzner firewall ID to attach"
+}
+
 variable "worker_count" {
   type        = number
   description = "Number of worker nodes to create"
@@ -39,7 +44,9 @@ resource "hcloud_server" "worker" {
     network_id = var.network_id
     // no explicit ip = auto-assigned
   }
-
+  
+  firewall_ids = [var.firewall_id]
+  
   labels = {
     role = "worker"
   }

@@ -1,131 +1,0 @@
-Script started on 2025-08-29 17:46:24+01:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="84" LINES="46"]
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra]1;..-native-infra]7;file:///lab/px/cloud-native-infra\[0m[27m[24m[J[01;32m➜  [36mcloud-native-infra[00m [K[?1h=[?2004h[0m[27m[24m[J[01;32m➜  [36mcloud-native-infra[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [Ksscripts[?1l>[?2004l
-]2;cd /lab/px/cloud-native-infra/scripts/]1;scripts[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
-]2;ls --color=tty]1;ls[0m[01;32mclean.sh[0m  [01;32mload-secrets.sh[0m
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004h../clae  a ean.sh[?1l>[?2004l
-]2;./clean.sh]1;./clean.sh→ Cleaning Terraform/OpenTofu local caches in /lab/px/cloud-native-infra...
-⚠️  This will delete all .terraform/ and tfplan files. State files will be preserved. Continue? [y/N] y
-✔ Clean complete. State files (.tfstate) and lockfiles (.lock.hcl) preserved.
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004h../ [7mload-secrets.sh[27m[15D[27ml[27mo[27ma[27md[27m-[27ms[27me[27mc[27mr[27me[27mt[27ms[27m.[27ms[27mh[?1l>[?2004l
-]2;./load-secrets.sh]1;./load-secrets.sh→ Decrypting secrets...
-HCLOUD_TOKEN is set: ****…
-→ Initializing OpenTofu...
-
-[0m[1mInitializing the backend...[0m
-[0m[1mInitializing modules...[0m
-- core_network in ../../../modules/core-network
-
-[0m[1mInitializing provider plugins...[0m
-- Reusing previous version of hetznercloud/hcloud from the dependency lock file
-- Installing hetznercloud/hcloud v1.52.0...
-- Installed hetznercloud/hcloud v1.52.0 (signed, key ID [0m[1m5219EACB3A77198B[0m[0m)
-
-Providers are signed by their developers.
-If you'd like to know more about provider signing, you can read about it here:
-https://opentofu.org/docs/cli/plugins/signing/
-
-[0m[1m[32mOpenTofu has been successfully initialized![0m[32m[0m
-[0m[32m
-You may now begin working with OpenTofu. Try running "tofu plan" to see
-any changes that are required for your infrastructure. All OpenTofu commands
-should now work.
-
-If you ever set or change modules or backend configuration for OpenTofu,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.[0m
-→ Running plan...
-[0m[1mmodule.core_network.hcloud_network.main: Refreshing state... [id=11384527][0m
-
-[0m[1m[32mNo changes.[0m[1m Your infrastructure matches the configuration.[0m
-
-[0mOpenTofu has compared your real infrastructure against your configuration and found
-no differences, so no changes are needed.
-→ Plan created: tfplan. Use APPLY=true to apply.
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
-]2;ls --color=tty]1;ls[0m[01;32mclean.sh[0m  [01;32mload-secrets.sh[0m
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hccat [7mload-secrets.sh[27m[15D[27ml[27mo[27ma[27md[27m-[27ms[27me[27mc[27mr[27me[27mt[27ms[27m.[27ms[27mh[?1l>[?2004l
-]2;cat load-secrets.sh]1;cat#!/usr/bin/env bash
-set -euo pipefail
-trap 'echo "Error on line $LINENO"; exit 1' ERR
-
-ENV="${1:-dev}"
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../tofu/environments/hetzner/${ENV}" && pwd)"
-cd "$ROOT"
-
-echo "→ Decrypting secrets..."
-HETZNER_TOKEN="$(SOPS_AGE_KEY_FILE="$HOME/.secrets/age.key" \
-  sops --decrypt --extract '["hcloud_token"]' hetzner.enc.yaml)"
-export HCLOUD_TOKEN="$HETZNER_TOKEN"
-
-echo "HCLOUD_TOKEN is set: ****…"
-
-echo "→ Initializing OpenTofu..."
-tofu init -input=false
-
-echo "→ Running plan..."
-tofu plan -out=tfplan
-
-if [[ "${APPLY:-false}" == "true" ]]; then
-  echo "→ Applying..."
-  tofu apply -auto-approve tfplan
-  rm -f tfplan
-  echo "✅ Apply complete! (tfplan removed)"
-else
-  echo "→ Plan created: tfplan. Use APPLY=true to apply."
-fi
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hcclear[?1l>[?2004l
-]2;clear]1;clear[H[2J[3J[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
-]2;ls --color=tty]1;ls[0m[01;32mclean.sh[0m  [01;32mload-secrets.sh[0m
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004h..'. ./[7mclean.sh[27m[8D[27mc[27ml[27me[27ma[27mn[27m.[27ms[27mh[?1l>[?2004l
-]2;./clean.sh]1;./clean.sh→ Cleaning Terraform/OpenTofu local caches in /lab/px/cloud-native-infra...
-⚠️  This will delete all .terraform/ and tfplan files. State files will be preserved. Continue? [y/N] y
-✔ Clean complete. State files (.tfstate) and lockfiles (.lock.hcl) preserved.
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hcclear[?1l>[?2004l
-]2;clear]1;clear[H[2J[3J[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
-]2;ls --color=tty]1;ls[0m[01;32mclean.sh[0m  [01;32mload-secrets.sh[0m
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004h../[7mload-secrets.sh[27m[15D[27ml[27mo[27ma[27md[27m-[27ms[27me[27mc[27mr[27me[27mt[27ms[27m.[27ms[27mh[?1l>[?2004l
-]2;./load-secrets.sh]1;./load-secrets.sh→ Decrypting secrets...
-HCLOUD_TOKEN is set: ****…
-→ Initializing OpenTofu...
-
-[0m[1mInitializing the backend...[0m
-[0m[1mInitializing modules...[0m
-- core_network in ../../../modules/core-network
-- k8s_control_plane in 
-- k8s_nodes in 
-[31m[31m╷[0m[0m
-[31m│[0m [0m[1m[31mError: [0m[0m[1mUnreadable module directory[0m
-[31m│[0m [0m
-[31m│[0m [0m[0mUnable to evaluate directory symlink: lstat ../../modules: no such file or
-[31m│[0m [0mdirectory
-[31m╵[0m[0m
-[0m[0m
-[31m[31m╷[0m[0m
-[31m│[0m [0m[1m[31mError: [0m[0m[1mUnreadable module directory[0m
-[31m│[0m [0m
-[31m│[0m [0m[0mThe directory  could not be read for module "k8s_control_plane" at main.tf:20.
-[31m╵[0m[0m
-[0m[0m
-[31m[31m╷[0m[0m
-[31m│[0m [0m[1m[31mError: [0m[0m[1mUnreadable module directory[0m
-[31m│[0m [0m
-[31m│[0m [0m[0mUnable to evaluate directory symlink: lstat ../../modules: no such file or
-[31m│[0m [0mdirectory
-[31m╵[0m[0m
-[0m[0m
-[31m[31m╷[0m[0m
-[31m│[0m [0m[1m[31mError: [0m[0m[1mUnreadable module directory[0m
-[31m│[0m [0m
-[31m│[0m [0m[0mThe directory  could not be read for module "k8s_nodes" at main.tf:29.
-[31m╵[0m[0m
-[0m[0m
-Error on line 17
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;31m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hcclear[?1l>[?2004l
-]2;clear]1;clear[H[2J[3J[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/scripts]1;..infra/scripts]7;file:///lab/px/cloud-native-infra/scripts\[0m[27m[24m[J[01;32m➜  [36mscripts[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hddev[?1l>[?2004l
-]2;cd /lab/px/cloud-native-infra/tofu/environments/hetzner/dev]1;dev[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/tofu/environments/hetzner/dev]1;..s/hetzner/dev]7;file:///lab/px/cloud-native-infra/tofu/environments/hetzner/dev\[0m[27m[24m[J[01;32m➜  [36mdev[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hcclear[?1l>[?2004l
-]2;clear]1;clear[H[2J[3J[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/tofu/environments/hetzner/dev]1;..s/hetzner/dev]7;file:///lab/px/cloud-native-infra/tofu/environments/hetzner/dev\[0m[27m[24m[J[01;32m➜  [36mdev[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
-]2;ls --color=tty]1;lshetzner.enc.yaml  outputs.tf         terraform.tfstate.backup
-main.tf           terraform.tfstate  typescript
-[1m[7m%[27m[1m[0m                                                                                    ]2;chrisanich@anichlabs:/lab/px/cloud-native-infra/tofu/environments/hetzner/dev]1;..s/hetzner/dev]7;file:///lab/px/cloud-native-infra/tofu/environments/hetzner/dev\[0m[27m[24m[J[01;32m➜  [36mdev[00m [01;34mgit:([31mexpand[34m) [33m✗[00m [K[?1h=[?2004hnnano main.tf[?1l>[?2004l
-]2;nano main.tf]1;nano[?2004h[?1049h[22;0;0t[1;46r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[44;36H(B[0;7m[ Reading... ](B[m[44;34H(B[0;7m[ Read 44 lines ](B[m[H(B[0;7m  GNU nano 7.2                           main.tf                                    [1;83H(B[m[45d(B[0;7m^G(B[m Help[15G(B[0;7m^O(B[m Write Out  (B[0;7m^W(B[m Where Is   (B[0;7m^K(B[m Cut[45;57H(B[0;7m^T(B[m Execute    (B[0;7m^C(B[m Location[46d(B[0;7m^X(B[m Exit[15G(B[0;7m^R(B[m Read File  (B[0;7m^\(B[m Replace    (B[0;7m^U(B[m Paste[57G(B[0;7m^J(B[m Justify    (B[0;7m^/(B[m Go To Line[2dterraform {[3;3Hrequired_providers {[4;5Hhcloud = {[5;7Hsource  = "hetznercloud/hcloud"[6;7Hversion = ">= 1.0.0"[7;5H}[8;3H}[9d}[11dprovider "hcloud" {[12d[36m  # Token is read from HCLOUD_TOKEN environment variable[13d[39m(B[m}[15dmodule "core_network" {[16;3Hsource[16G= "../../../modules/core-network"[17;3Hnetwork_name = "cloud-native-network"[18;3Hnetwork_cidr = "10.0.0.0/16"[19d}[21dmodule "k8s_control_plane" {[22;3Hsource[15G= "../../modules/k8s-control-plane"[23;3Hregion[15G= "fsn1"[24;3Hserver_type = "cpx21"[25;3Hssh_key_name = "tuxedo-ed25519"[26;3Hnetwork_id   = module.core_network.network_id[27;3Hprivate_ip   = "10.0.0.10"[28d}[30dmodule "k8s_nodes" {[31;3Hsource[15G= "../../modules/k8s-node"[32;3Hregion[15G= "fsn1"[33;3Hserver_type = "cpx21"[34;3Hssh_key_name = "tuxedo-ed25519"[35;3Hnetwork_id   = module.core_network.network_id[36;3Hcount[15G= 2[37d}[39doutput "control_plane_ip" {[40;3Hvalue = module.k8s_control_plane.ip[41d}[43doutput "worker_ips" {[2d[?12l[?25h[?25l[?12l[?25h[7d[?25l[?12l[?25h[2d[?25l[?12l[?25h[7d[?25l[44d[K[?12l[?25h[12d[?25l[?12l[?25h[18d[?25l[?12l[?25h[23d[?25l[?12l[?25h[29d[?25l[?12l[?25h[24d[?25l[?12l[?25h[19d[?25l[?12l[?25h[13d[?25l[?12l[?25h[18d[?25l[?12l[?25h[23d[?25l[?12l[?25h[29d[?25l[?12l[?25h[24d[?25l[?12l[?25h[19d[?25l[?12l[?25h[23d[?25l[?12l[?25h[29d[?25l[?12l[?25h[34d[?25l[?12l[?25h[40d[?25l[?12l[?25h[2;44r[44;1H[2S[1;46r[42;3Hvalue = module.k8s_nodes.ips[43d}[?25l[?12l[?25h7[2;44r8[44d
-[1;46r[43;1H[?25l[?12l[?25h[38d[?25l[?12l[?25h[33d[?25l[?12l[?25h[27d[?25l[?12l[?25h[22d[?25l[?12l[?25h[16d[?25l[?12l[?25h[11d[?25l[?12l[?25h[12d[?25l[?12l[?25h[13d[?25l[?12l[?25h[14d[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[13d[?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25hs[?25l[?12l[?25ho[?25l[?12l[?25hu[?25l[?12l[?25hr[?25l[?12l[?25hc[?25l[?12l[?25he[?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25h [?25l[?12l[?25h=[?25l[?12l[?25h [?25l[?12l[?25h"[?25l[?12l[?25h.[?25l[?12l[?25h.[?25l[?12l[?25h/[?25l[?12l[?25h.[?25l[?12l[?25h.[?25l[?12l[?25h/[?25l[?12l[?25h.[?25l[?12l[?25h.[?25l[?12l[?25h[14d[?25l[?12l[?25ht[?25l[?12l[?25hi[?25l[?12l[?25hv[?25l[?12l[?25he[?25l[?12l[?25h-[?25l[?12l[?25hn[?25l[?12l[?25h[15d[?25l[?12l[?25h[16d}[?25l[?12l[?25h[17d[?25l[?12l[?25h[18;29H[?25l[?12l[?25h[19;33H[?25l[?12l[?25h[20;23H[?25l[?12l[?25h[19;33H[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[1;50H(B[0;7m*[83G(B[m[?12l[?25h[19;24H.modules/k8s-control-plane"[19;25H[?25l[?12l[?25h..modules/k8s-control-plane"[19;26H[?25l[?12l[?25h/modules/k8s-control-plane"[19;27H[?25l[?12l[?25h[20;23H[?25l[?12l[?25h[21d"[?25l[?12l[?25h[22;27H[?25l[?12l[?25h[23d[?25l[?12l[?25h[24d[?25l[?12l[?25h[25d}[?25l[?12l[?25h[26d[?25l[?12l[?25h[27;21H[?25l[?12l[?25h[28;27H[?25l[?12l[?25h[29;23H[?25l[?12l[?25h[30d"[?25l[?12l[?25h[31;27H[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A/mod[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h.modules/k8s-node"[28;25H[?25l[?12l[?25h..modules/k8s-node"[28;26H[?25l[?12l[?

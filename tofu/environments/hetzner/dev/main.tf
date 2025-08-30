@@ -17,6 +17,12 @@ module "core_network" {
   network_cidr = "10.0.0.0/16"
 }
 
+module "hcloud_firewall" {
+  source       = "../../../modules/hcloud-firewall"
+  admin_cidr   = "194.156.225.60/32"
+  cluster_cidr = "10.0.0.0/16"
+}  
+
 module "k8s_control_plane" {
   source      = "../../../modules/k8s-control-plane"
   region      = "fsn1"
@@ -24,6 +30,7 @@ module "k8s_control_plane" {
   ssh_key_name = "tuxedo-ed25519"
   network_id   = module.core_network.network_id
   private_ip   = "10.0.0.10"
+  firewall_id  = module.hcloud_firewall.firewall_id
 }
 
 module "k8s_nodes" {
@@ -33,6 +40,7 @@ module "k8s_nodes" {
   ssh_key_name  = "tuxedo-ed25519"
   network_id    = module.core_network.network_id
   worker_count  = 2
+  firewall_id   = module.hcloud_firewall.firewall_id
 }
 
 
