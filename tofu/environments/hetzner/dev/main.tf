@@ -24,11 +24,11 @@ module "hcloud_firewall" {
 }  
 
 module "headscale_server" {
-  source	= "../../../modules/headscale-server"
-  region	= "fsn1"
-  server_type	= "cx22"		# best value choice.
-  ssh_key_name  = "tuxedo-ed25519"	# registered SSH key.
-  admin_cidr    = "192.156.255.60/32"	# laptop's current IP from "curl -4 ifconfig.me".
+  source        = "../../../modules/headscale-server"
+  region        = "fsn1"
+  server_type   = "cx22"                # best value choice.
+  ssh_key_name  = "tuxedo-ed25519"      # registered SSH key.
+  admin_cidr    = "194.156.225.60/32"   # laptop's current IP from curl -4 ifconfig.me
 }
   
 module "k8s_control_plane" {
@@ -59,3 +59,9 @@ output "control_plane_ip" {
 output "worker_ips" {
   value = module.k8s_nodes.ips
 }  
+
+
+output "headscale_ip" {
+  value       = module.headscale_server.ip
+  description = "Public IPv4 of the Headscale server (for DNS setup)"
+}
