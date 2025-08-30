@@ -91,7 +91,6 @@ resource "hcloud_firewall" "this" {
   rule {
     direction       = "out"
     protocol        = "icmp"
-    port            = "any"
     destination_ips = ["0.0.0.0/0", "::/0"]
   }
 }
